@@ -47,7 +47,7 @@ function getCandidatos(resolve, reject) {
   console.log("PAGINA: " + pagina);
   
   var options = {
-    url: 'http://m2016.digitalproserver.com/elecciones_api/api/candidatos/page/' + pagina
+    url: 'http://myexampleAPIserver.com/page/' + pagina
   };
   
   //whenever I haven't found an empty results page, this is false
