@@ -1,0 +1,22 @@
+{
+  "name": "promiseconcat",
+  "version": "1.0.0",
+  "description": "Scrap Arc API Authors",
+  "main": "myExample.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chjalmar/PromiseConcat.git"
+  },
+  "author": "Chjalmar Ekman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chjalmar/PromiseConcat/issues"
+  },
+  "homepage": "https://github.com/chjalmar/PromiseConcat#readme",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
+}

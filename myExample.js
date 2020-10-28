@@ -45,9 +45,11 @@ function getCandidatos(resolve, reject) {
   respuesta = "";
   //starting at already declared page 0
   console.log("PAGINA: " + pagina);
+
+  let param = pagina ? `?last=${pagina}` : '';
   
   var options = {
-    url: 'http://myexampleAPIserver.com/page/' + pagina
+    url: 'https://[ARC-API_URL]/author/v2/author-service' + param
   };
   
   //whenever I haven't found an empty results page, this is false
@@ -58,16 +60,16 @@ function getCandidatos(resolve, reject) {
       console.log(body);
       respuesta = JSON.parse(body);
       
-      if (respuesta.candidatos.length == 0) {
+      if (respuesta.more == false) {
         //I reached an empty results page; this must be the end
         lastpage = true;	
       } else {
-        for (var x = 0; x < respuesta.candidatos.length; x++) {
-      	  total.push(respuesta.candidatos[x]);
+        for (var x = 0; x < respuesta.authors.length; x++) {
+      	  total.push(respuesta.authors[x]);
       	}
       }
-      console.log("PRÓXIMA PAG: " + respuesta.page_next);
-      pagina = respuesta.page_next;
+      console.log("PRÓXIMA PAG: " + respuesta.last);
+      pagina = respuesta.last;
       resolve(lastpage);
     } else {
       //If there's an error, let's just save the page number and go to the next page
@@ -82,9 +84,22 @@ function getCandidatos(resolve, reject) {
 }
 
 function imprimeCandidatos(total) {
-  fs.writeFile("candidatos.json", JSON.stringify(total),{ flag:"w", encoding:"UTF-8" }, function(err) {
+  fs.writeFile("autores.json", JSON.stringify(total),{ flag:"w", encoding:"UTF-8" }, function(err) {
     if(err) {
       return console.log(err);
     }
-  });	
+  });
+
+  printCSV(total);
+}
+
+function printCSV(total) {
+  total.map(author => {
+    let line = `${author._id};${author.firstName};${author.lastName};${author.byline};${author.role};${author.image};${author.email};${author.bio};${author.longBio}\n\l`;
+    fs.writeFile("autores.csv", line, { flag:"w+", encoding:"UTF-8" }, function(err) {
+      if(err) {
+        return console.log(err);
+      }
+    });
+  });
 }
